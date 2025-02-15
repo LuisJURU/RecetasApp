@@ -11,7 +11,7 @@ const RecetasScreen = ({ navigation }) => {
     try {
       const token = await AsyncStorage.getItem('token');
       if (token) {
-        const response = await axios.get('http://192.168.1.107:5000/api/recipes', {
+        const response = await axios.get('http://192.168.6.41:5000/api/recipes', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +32,7 @@ const RecetasScreen = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.recipeCard} onPress={() => navigation.navigate('DetalleReceta', { receta: item })}>
       {item.imagen && (
-        <Image source={{ uri: `http://192.168.1.107:5000${item.imagen}` }} style={styles.recipeImage} />
+        <Image source={{ uri: `http://192.168.6.41:5000${item.imagen}` }} style={styles.recipeImage} />
       )}
       <Text style={styles.recipeTitle}>{item.nombre}</Text>
       <Text>{item.descripcion}</Text>

@@ -46,7 +46,7 @@ export default function AgregarRecetaScreen({ navigation }) {
         });
       }
 
-      const response = await axios.post('http://192.168.1.107:5000/api/recipes', formData, {
+      const response = await axios.post('http://192.168.6.41:5000/api/recipes', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -69,6 +69,7 @@ export default function AgregarRecetaScreen({ navigation }) {
 
   const requestStoragePermission = async () => {
     try {
+      Alert.alert('Error', 'juanito');
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
         {
@@ -79,8 +80,10 @@ export default function AgregarRecetaScreen({ navigation }) {
           buttonPositive: 'Aceptar',
         },
       );
+      Alert.alert('Error', 'juanito2');
       return granted === PermissionsAndroid.RESULTS.GRANTED;
     } catch (err) {
+      Alert.alert('Error', err);
       console.warn(err);
       return false;
     }
@@ -88,8 +91,10 @@ export default function AgregarRecetaScreen({ navigation }) {
 
   const handleSeleccionarImagen = async () => {
     if (Platform.OS === 'android') {
+      Alert.alert('Error', 'PERMISOS');
       const hasPermission = await requestStoragePermission();
       if (!hasPermission) {
+        Alert.alert('Error', 'NEGADO');
         return;
       }
     }

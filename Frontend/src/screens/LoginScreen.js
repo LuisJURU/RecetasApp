@@ -10,10 +10,13 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://192.168.1.107:5000/api/auth/login', {
+      const response = await axios.post('http://192.168.6.41:5000/api/auth/login', {
         email,
         password
       });
+
+      // Almacenar el token de autenticación
+      await AsyncStorage.setItem('token', response.data.token);
 
       // Navegar a la pantalla Home que contiene las pestañas
       navigation.dispatch(
