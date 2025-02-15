@@ -29,15 +29,15 @@ const recipeSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  groups: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Group',
-  }],
+  // createdBy: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   required: true,
+  // },
+  // groups: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Group',
+  // }],
 });
 
 module.exports = mongoose.model('Recipe', recipeSchema);

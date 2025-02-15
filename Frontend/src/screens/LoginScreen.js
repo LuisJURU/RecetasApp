@@ -10,13 +10,10 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://192.168.199.41:5000/api/login', {
+      const response = await axios.post('http://192.168.1.107:5000/api/auth/login', {
         email,
         password
       });
-
-      const { token } = response.data;
-      await AsyncStorage.setItem('token', token);
 
       // Navegar a la pantalla Home que contiene las pestañas
       navigation.dispatch(
@@ -32,65 +29,61 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <View style = {styles.container_div}>
-    <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesión</Text>
+    <View style={styles.container_div}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Iniciar Sesión</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Correo electrónico"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Correo electrónico"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Contraseña"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Contraseña"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Iniciar Sesión</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Iniciar Sesión</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Registro')}>
-        <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Registro')}>
+          <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   container_div: {
-    flex:1,
-    paddingTop:150,
-    paddingBottom:150,
-    // paddingLeft:50,
-    padding:25,
-    backgroundColor: '#FDE79C',
-
-
-  },
-  container: {
-    borderRadius:30,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#FDE79C',
+  },
+  container: {
+    width: '80%',
+    padding: 20,
     backgroundColor: 'red',
+    borderRadius: 10,
+    elevation: 5,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
-    width: '80%',
+    width: '100%',
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
@@ -100,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   button: {
-    width: '80%',
+    width: '100%',
     backgroundColor: '#FF6767',
     padding: 10,
     borderRadius: 8,
@@ -112,6 +105,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     marginTop: 10,
-    color: '#000',
+    color: '#FDE79C',
+    textAlign: 'center',
   },
 });
