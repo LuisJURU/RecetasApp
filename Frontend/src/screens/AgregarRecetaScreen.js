@@ -25,10 +25,7 @@ export default function AgregarRecetaScreen({ navigation }) {
       if (!nombre || !descripcion || !comensales || !tiempo || ingredientes.length === 0 || pasos.length === 0) {
         Alert.alert('Error', 'Todos los campos son obligatorios');
         return;
-   }
-   
-   console.log('Datos enviados:', { nombre, descripcion, comensales, tiempo, ingredientes, pasos });
-   
+      }
 
       // Convertir ingredientes y pasos a JSON
       const ingredientesJSON = JSON.stringify(ingredientes);

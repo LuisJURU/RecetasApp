@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, Pressable, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
@@ -31,6 +31,9 @@ const RecetasScreen = ({ navigation }) => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.recipeCard} onPress={() => navigation.navigate('DetalleReceta', { receta: item })}>
+      {item.imagen && (
+        <Image source={{ uri: `http://192.168.1.107:5000${item.imagen}` }} style={styles.recipeImage} />
+      )}
       <Text style={styles.recipeTitle}>{item.nombre}</Text>
       <Text>{item.descripcion}</Text>
       <Text>Tiempo: {item.tiempo}</Text>
@@ -71,6 +74,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 8,
     backgroundColor: '#f9f9f9',
+  },
+  recipeImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 10,
   },
   recipeTitle: {
     fontSize: 18,
