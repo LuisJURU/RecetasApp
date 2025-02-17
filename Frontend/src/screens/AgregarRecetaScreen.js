@@ -67,6 +67,7 @@ export default function AgregarRecetaScreen({ navigation }) {
     }
   };
 
+  // Solicitar permiso de almacenamiento en Android FALLA
   const requestStoragePermission = async () => {
     try {
       Alert.alert('Error', 'juanito');
