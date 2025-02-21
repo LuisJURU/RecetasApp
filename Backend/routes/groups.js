@@ -1,10 +1,10 @@
 const express = require('express');
 const Group = require('../models/Group');
-const Recipe = require('../models/Recipe');
+const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// Crear grupo
-router.post('/', async (req, res) => {
+// Crear grupo (protegido)
+router.post('/', authMiddleware, async (req, res) => {
   const { name, recipes } = req.body;
 
   try {
@@ -16,8 +16,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Obtener todos los grupos
-router.get('/', async (req, res) => {
+// Obtener todos los grupos (protegido)
+router.get('/', authMiddleware, async (req, res) => {
   try {
     const groups = await Group.find().populate('recipes');
     res.json(groups);
@@ -26,8 +26,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Eliminar grupo
-router.delete('/:id', async (req, res) => {
+// Eliminar grupo (protegido)
+router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     await Group.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'Grupo eliminado' });

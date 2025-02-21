@@ -20,39 +20,66 @@ export default function AgregarRecetaScreen({ navigation }) {
         Alert.alert('Error', 'No estás autenticado');
         return;
       }
-  
+
+      // Validar que todos los campos tengan valores válidos
+      if (!nombre || !descripcion || !comensales || !tiempo || ingredientes.length === 0 || pasos.length === 0) {
+        Alert.alert('Error', 'Todos los campos son obligatorios');
+        return;
+      }
+
+      // Convertir ingredientes y pasos a JSON
+      const ingredientesJSON = JSON.stringify(ingredientes);
+      const pasosJSON = JSON.stringify(pasos);
+
       const formData = new FormData();
       formData.append('nombre', nombre);
       formData.append('descripcion', descripcion);
       formData.append('comensales', comensales);
       formData.append('tiempo', tiempo);
-      formData.append('ingredientes', JSON.stringify(ingredientes));
-      formData.append('pasos', JSON.stringify(pasos));
+      formData.append('ingredientes', ingredientesJSON);
+      formData.append('pasos', pasosJSON);
       if (imagen) {
         formData.append('imagen', {
           uri: imagen.uri,
-          type: imagen.type,
-          name: imagen.fileName,
+          type: imagen.type || 'image/jpeg',  // Asegurar tipo de imagen
+          name: imagen.fileName || 'imagen.jpg',
         });
       }
-  
-      const response = await axios.post('http://192.168.1.108:5000/api/recipes', formData, {
+
+
+      // const response = await axios.post('      // https://recetas-a2zepi5a7-luis-jarabas-projects.vercel.app/api/recipes', formData, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
+
+      
+      const response = await axios.post('http://localhost:5000/api/recipes', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
       });
-  
+
+      console.log('Respuesta del servidor:', response.data);
       Alert.alert('Éxito', 'Receta agregada exitosamente');
       navigation.goBack();
     } catch (error) {
-      console.error('Error al agregar la receta:', error);
-      Alert.alert('Error', 'Hubo un problema al agregar la receta. Intenta de nuevo.');
+      if (error.response) {
+        console.error('Error del servidor:', error.response.data);
+        Alert.alert('Error', `Servidor: ${error.response.data.message || 'Error desconocido'}`);
+      } else {
+        console.error('Error al agregar la receta:', error.message);
+        Alert.alert('Error', 'Hubo un problema al agregar la receta. Intenta de nuevo.');
+      }
     }
   };
 
+  // Solicitar permiso de almacenamiento en Android FALLA
   const requestStoragePermission = async () => {
     try {
+      Alert.alert('Error', 'juanito');
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
         {
@@ -63,8 +90,10 @@ export default function AgregarRecetaScreen({ navigation }) {
           buttonPositive: 'Aceptar',
         },
       );
+      Alert.alert('Error', 'juanito2');
       return granted === PermissionsAndroid.RESULTS.GRANTED;
     } catch (err) {
+      Alert.alert('Error', err);
       console.warn(err);
       return false;
     }
@@ -72,20 +101,25 @@ export default function AgregarRecetaScreen({ navigation }) {
 
   const handleSeleccionarImagen = async () => {
     if (Platform.OS === 'android') {
+      Alert.alert('Error', 'PERMISOS');
       const hasPermission = await requestStoragePermission();
       if (!hasPermission) {
+        Alert.alert('Error', 'NEGADO');
         return;
       }
     }
 
     launchImageLibrary({ mediaType: 'photo' }, (response) => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        console.log('Usuario canceló la selección de imagen');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        console.log('Error en ImagePicker:', response.error);
       } else {
-        const source = response.assets[0];
-        setImagen(source);
+        const source = response.assets ? response.assets[0] : null;
+        if (source) {
+          console.log('Imagen seleccionada:', source);
+          setImagen(source);
+        }
       }
     });
   };

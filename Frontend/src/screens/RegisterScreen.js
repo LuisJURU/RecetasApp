@@ -28,8 +28,11 @@ export default function RegisterScreen({ navigation }) {
       return;
     }
 
+
+ 
+
     try {
-      const response = await axios.post('http://192.168.199.41:5000/api/users/register', {
+      const response = await axios.post('http://localhost:5000/api/auth/registro', {
         email,
         password
       });
@@ -51,7 +54,8 @@ export default function RegisterScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container_div}>
+          <View style={styles.container}>
       <Text style={styles.title}>Registro</Text>
 
       <TextInput
@@ -86,16 +90,24 @@ export default function RegisterScreen({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.linkText}>¿Ya tienes cuenta? Inicia sesión</Text>
       </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container_div: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FDE79C',
+  },
+  container: {
+    width: '80%',
+    padding: 20,
+    backgroundColor: 'red',
+    borderRadius: 10,
+    elevation: 5,
   },
   title: {
     fontSize: 24,
@@ -103,7 +115,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: '80%',
+    width: '100%',
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
@@ -113,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   button: {
-    width: '80%',
+    width: '100%',
     backgroundColor: '#FF6767',
     padding: 10,
     borderRadius: 8,
@@ -125,6 +137,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     marginTop: 10,
-    color: '#FF6767',
+    color: '#FDE79C',
+    textAlign: 'center',
   },
 });
