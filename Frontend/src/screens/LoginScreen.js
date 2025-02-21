@@ -11,10 +11,11 @@ export default function LoginScreen({ navigation }) {
 
   // const handleLogin = async () => {
   //   try {
-  //     const response = await axios.post('https://recetas-a2zepi5a7-luis-jarabas-projects.vercel.app/api/auth/login', {
+  //     const response = await axios.post('https://recetas-l0tozyvn0-luis-jarabas-projects.vercel.app/api/auth/login', {
   //       email,
   //       password
   //     });
+
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', {
