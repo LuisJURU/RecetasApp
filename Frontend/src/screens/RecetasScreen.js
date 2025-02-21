@@ -7,6 +7,22 @@ import { useFocusEffect } from '@react-navigation/native';
 const RecetasScreen = ({ navigation }) => {
   const [recetas, setRecetas] = useState([]);
 
+      // const fetchRecetas = async () => {
+      //   try {
+      //     const token = await AsyncStorage.getItem('token');
+      //     if (token) {
+      //       const response = await axios.get('      https://recetas-a2zepi5a7-luis-jarabas-projects.vercel.app/api/recipes', {
+      //         headers: {
+      //           Authorization: `Bearer ${token}`,
+      //         },
+      //       });
+      //       setRecetas(response.data);
+      //     }
+      //   } catch (error) {
+      //     console.error("Error fetching recetas", error);
+      //   }
+      // };
+      
   const fetchRecetas = async () => {
     try {
       const token = await AsyncStorage.getItem('token');

@@ -46,6 +46,15 @@ export default function AgregarRecetaScreen({ navigation }) {
         });
       }
 
+
+      // const response = await axios.post('      // https://recetas-a2zepi5a7-luis-jarabas-projects.vercel.app/api/recipes', formData, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
+
+      
       const response = await axios.post('http://localhost:5000/api/recipes', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
