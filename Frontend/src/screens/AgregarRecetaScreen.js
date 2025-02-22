@@ -47,6 +47,7 @@ export default function AgregarRecetaScreen({ navigation }) {
         });
       }
 
+
       const response = await axios.post(`${IP}/api/recipes`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -72,10 +73,8 @@ export default function AgregarRecetaScreen({ navigation }) {
     }
   };
 
-  // Solicitar permiso de almacenamiento en Android FALLA
   const requestStoragePermission = async () => {
     try {
-      Alert.alert('Error', 'juanito');
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
         {
@@ -86,10 +85,8 @@ export default function AgregarRecetaScreen({ navigation }) {
           buttonPositive: 'Aceptar',
         },
       );
-      Alert.alert('Error', 'juanito2');
       return granted === PermissionsAndroid.RESULTS.GRANTED;
     } catch (err) {
-      Alert.alert('Error', err);
       console.warn(err);
       return false;
     }
@@ -97,10 +94,9 @@ export default function AgregarRecetaScreen({ navigation }) {
 
   const handleSeleccionarImagen = async () => {
     if (Platform.OS === 'android') {
-      Alert.alert('Error', 'PERMISOS');
       const hasPermission = await requestStoragePermission();
       if (!hasPermission) {
-        Alert.alert('Error', 'NEGADO');
+        Alert.alert('Permiso denegado', 'No se puede acceder al almacenamiento');
         return;
       }
     }
@@ -159,6 +155,7 @@ export default function AgregarRecetaScreen({ navigation }) {
         placeholder="Nombre de la receta"
         value={nombre}
         onChangeText={setNombre}
+        maxLength={40}
       />
 
       <TextInput
@@ -166,6 +163,8 @@ export default function AgregarRecetaScreen({ navigation }) {
         placeholder="Descripción"
         value={descripcion}
         onChangeText={setDescripcion}
+        maxLength={200}
+        multiline
       />
 
       <TextInput
@@ -181,6 +180,8 @@ export default function AgregarRecetaScreen({ navigation }) {
         placeholder="Tiempo de elaboración"
         value={tiempo}
         onChangeText={setTiempo}
+        maxLength={10}
+        keyboardType="numeric"
       />
 
       <Text style={styles.subtitle}>Ingredientes</Text>
@@ -197,8 +198,8 @@ export default function AgregarRecetaScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       ))}
-      <TouchableOpacity style={styles.button} onPress={handleAgregarIngrediente}>
-        <Text style={styles.buttonText}>Agregar Ingrediente</Text>
+      <TouchableOpacity style={styles.addButton} onPress={handleAgregarIngrediente}>
+        <Text style={styles.addButtonText}>Agregar Ingrediente</Text>
       </TouchableOpacity>
 
       <Text style={styles.subtitle}>Pasos</Text>
@@ -216,20 +217,20 @@ export default function AgregarRecetaScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       ))}
-      <TouchableOpacity style={styles.button} onPress={handleAgregarPaso}>
-        <Text style={styles.buttonText}>Agregar Paso</Text>
+      <TouchableOpacity style={styles.addButton} onPress={handleAgregarPaso}>
+        <Text style={styles.addButtonText}>Agregar Paso</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleSeleccionarImagen}>
-        <Text style={styles.buttonText}>Seleccionar Imagen</Text>
+      <TouchableOpacity style={styles.imageButton} onPress={handleSeleccionarImagen}>
+        <Text style={styles.imageButtonText}>Seleccionar Imagen</Text>
       </TouchableOpacity>
 
       {imagen && (
         <Image source={{ uri: imagen.uri }} style={styles.image} />
       )}
 
-      <TouchableOpacity style={styles.button} onPress={handleAgregarReceta}>
-        <Text style={styles.buttonText}>Agregar</Text>
+      <TouchableOpacity style={styles.submitButton} onPress={handleAgregarReceta}>
+        <Text style={styles.submitButtonText}>Agregar</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -240,29 +241,31 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FDE79C',
+    backgroundColor: '#F5F5F5',
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#FF5733',
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginTop: 20,
     marginBottom: 10,
+    color: '#FF5733',
   },
   input: {
     width: '100%',
     height: 40,
-    borderColor: '#ccc',
+    borderColor: '#FF5733',
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
   },
   ingredienteContainer: {
     flexDirection: 'row',
@@ -292,21 +295,49 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
   },
-  button: {
+  addButton: {
     width: '100%',
-    backgroundColor: '#FF6767',
+    backgroundColor: '#FFD859',
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 10,
   },
-  buttonText: {
+  addButtonText: {
+    color: '#333',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  imageButton: {
+    width: '100%',
+    backgroundColor: '#FF5733',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  imageButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  submitButton: {
+    width: '100%',
+    backgroundColor: '#FF5733',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  submitButtonText: {
     color: '#fff',
     fontSize: 18,
+    fontWeight: 'bold',
   },
   image: {
     width: 200,
     height: 200,
     marginBottom: 15,
+    borderRadius: 10,
   },
 });
