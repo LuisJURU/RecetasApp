@@ -1,4 +1,5 @@
 import React from "react";
+import { Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -66,6 +67,12 @@ const AppNavigator = () => {
             headerTitleStyle: {
               fontWeight: 'bold',
             },
+            headerTitle: () => (
+              <Image
+                style={{ width: 40, height: 40 }}
+                source={require('../img/PENUP_20250221_180017.png')} // Asegúrate de tener esta imagen en tu proyecto
+              />
+            ),
           }}
         />
         <Stack.Screen

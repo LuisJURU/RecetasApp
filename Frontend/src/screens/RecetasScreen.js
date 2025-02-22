@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleSheet, FlatList, TouchableOpacity, Image, T
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import { IP, API_URL_LOCAL } from '@env';
 
 const RecetasScreen = ({ navigation }) => {
   const [recetas, setRecetas] = useState([]);
@@ -13,7 +14,7 @@ const RecetasScreen = ({ navigation }) => {
     try {
       const token = await AsyncStorage.getItem('token');
       if (token) {
-        const response = await axios.get('http://localhost:5000/api/recipes', {
+        const response = await axios.get(`${IP}/api/recipes`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -24,6 +25,7 @@ const RecetasScreen = ({ navigation }) => {
     } catch (error) {
       console.error("Error fetching recetas", error);
     }
+    
   };
 
   useFocusEffect(
@@ -43,7 +45,7 @@ const RecetasScreen = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.recipeCard} onPress={() => navigation.navigate('DetalleRecetaScreen', { receta: item })}>
       {item.imagen && (
-        <Image source={{ uri: `http://localhost:5000${item.imagen}` }} style={styles.recipeImage} />
+        <Image source={{ uri: `${IP}${item.imagen}` }} style={styles.recipeImage} />
       )}
       <Text style={styles.recipeTitle}>
         {item.nombre.length > 20 ? `${item.nombre.substring(0, 20)}...` : item.nombre}

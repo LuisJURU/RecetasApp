@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
+import { IP, API_URL_PROD } from '@env';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -10,14 +11,15 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${IP}`, {
         email,
         password
       });
 
+  
       // Almacenar el token de autenticación
       await AsyncStorage.setItem('token', response.data.token);
-
+  
       // Navegar a la pantalla Home que contiene las pestañas
       navigation.dispatch(
         CommonActions.reset({

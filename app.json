@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "134673a5-8265-4b9b-bacb-6cbb9b1443d2"
+      }
+    },
+    "android": {
+      "package": "com.lusigod.recetasapp"
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, Scro
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { IP, API_URL_PROD } from '@env';
 
 export default function AgregarRecetaScreen({ navigation }) {
   const [nombre, setNombre] = useState('');
@@ -46,12 +47,17 @@ export default function AgregarRecetaScreen({ navigation }) {
         });
       }
 
-      const response = await axios.post('http://localhost:5000/api/recipes', formData, {
+
+      const response = await axios.post(`${IP}/api/recipes`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
         },
+        
       });
+      console.log(IP);
+
+
 
       console.log('Respuesta del servidor:', response.data);
       Alert.alert('Éxito', 'Receta agregada exitosamente');

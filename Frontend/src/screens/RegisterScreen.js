@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
+import { IP } from '@env'; // Asegúrate de tener esta variable en tu archivo .env
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -29,14 +30,14 @@ export default function RegisterScreen({ navigation }) {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/registro', {
+      const response = await axios.post(`${IP}/api/auth/registro`, {
         email,
         password
       });
-      
+
       // Aquí puedes hacer algo con la respuesta, como navegar al login o mostrar un mensaje
       Alert.alert('Registro Exitoso', 'Ahora puedes iniciar sesión con tu cuenta.');
-      
+
       // Restablecer la pila de navegación y navegar al Login
       navigation.dispatch(
         CommonActions.reset({
