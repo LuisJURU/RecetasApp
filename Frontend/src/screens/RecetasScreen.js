@@ -46,15 +46,9 @@ const RecetasScreen = ({ navigation }) => {
         <Image source={{ uri: `http://localhost:5000${item.imagen}` }} style={styles.recipeImage} />
       )}
       <Text style={styles.recipeTitle}>
-        {item.nombre.length > 20 ? `${item.nombre.substring(0, 30)}...` : item.nombre}
+        {item.nombre.length > 20 ? `${item.nombre.substring(0, 20)}...` : item.nombre}
       </Text>
-      <Text>{item.descripcion}</Text>
-      
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('EditarReceta', { recetaId: item._id })}>
-          <Text style={styles.buttonText}>Editar</Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.recipeDescription}>{item.descripcion}</Text>
     </TouchableOpacity>
   );
 
@@ -83,40 +77,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#F5F5F5',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#FF5733',
   },
   searchInput: {
     height: 40,
-    borderColor: '#ccc',
+    borderColor: '#FF5733',
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 20,
+    backgroundColor: '#FFF',
   },
   recipeCard: {
-    padding: 10,
+    padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    marginBottom: 10,
-    borderRadius: 8,
-    backgroundColor: '#f9f9f9',
+    borderBottomColor: '#FF5733',
+    marginBottom: 15,
+    borderRadius: 10,
+    backgroundColor: '#FFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   recipeImage: {
     width: '100%',
     height: 200,
-    borderRadius: 8,
-    marginBottom: 10,
+    borderRadius: 10,
+    marginBottom: 15,
   },
   recipeTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    maxHeight: 25,
-    paddingBottom: 20,
+    color: '#FF5733',
+    marginBottom: 5,
+  },
+  recipeDescription: {
+    fontSize: 16,
+    color: '#666',
   },
   fab: {
     position: 'absolute',
@@ -126,27 +131,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     right: 20,
     bottom: 20,
-    backgroundColor: '#FFD859',
+    backgroundColor: '#FF5733',
     borderRadius: 30,
     elevation: 8,
   },
   fabText: {
     fontSize: 24,
     color: '#fff',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  editButton: {
-    backgroundColor: '#FFD859',
-    padding: 10,
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 14,
   },
 });
 

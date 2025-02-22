@@ -9,6 +9,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 import PerfilScreen from "../screens/PerfilScreen";
 import AgregarRecetaScreen from "../screens/AgregarRecetaScreen";
 import DetalleRecetaScreen from "../screens/DetalleRecetaScreen";
+import EditarRecetaScreen from "../screens/EditarRecetaScreen"; 
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -72,6 +73,20 @@ const AppNavigator = () => {
           component={AgregarRecetaScreen}
           options={{
             title: 'Agregar Receta',
+            headerStyle: {
+              backgroundColor: '#FF3737',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="EditarRecetaScreen"
+          component={EditarRecetaScreen}
+          options={{
+            title: 'Editar Receta',
             headerStyle: {
               backgroundColor: '#FF3737',
             },

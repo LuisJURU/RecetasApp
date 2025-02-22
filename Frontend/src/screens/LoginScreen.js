@@ -8,14 +8,6 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await axios.post('https://recetas-l0tozyvn0-luis-jarabas-projects.vercel.app/api/auth/login', {
-  //       email,
-  //       password
-  //     });
-
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', {
@@ -78,34 +70,39 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FDE79C',
+    backgroundColor: '#F5F5F5',
   },
   container: {
     width: '80%',
     padding: 20,
-    backgroundColor: 'red',
+    backgroundColor: '#FFF',
     borderRadius: 10,
     elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: '#FF5733',
   },
   input: {
     width: '100%',
     height: 40,
-    borderColor: '#ccc',
+    borderColor: '#FF5733',
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
   },
   button: {
     width: '100%',
-    backgroundColor: '#FF6767',
+    backgroundColor: '#FF5733',
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
@@ -116,7 +113,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     marginTop: 10,
-    color: '#FDE79C',
+    color: '#FF5733',
     textAlign: 'center',
   },
 });
