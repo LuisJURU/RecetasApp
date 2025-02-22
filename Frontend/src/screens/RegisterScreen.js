@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
+import { IP } from '@env'; // Asegúrate de tener esta variable en tu archivo .env
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -28,18 +29,15 @@ export default function RegisterScreen({ navigation }) {
       return;
     }
 
-
- 
-
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/registro', {
+      const response = await axios.post(`${IP}/api/auth/registro`, {
         email,
         password
       });
-      
+
       // Aquí puedes hacer algo con la respuesta, como navegar al login o mostrar un mensaje
       Alert.alert('Registro Exitoso', 'Ahora puedes iniciar sesión con tu cuenta.');
-      
+
       // Restablecer la pila de navegación y navegar al Login
       navigation.dispatch(
         CommonActions.reset({
@@ -55,41 +53,41 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container_div}>
-          <View style={styles.container}>
-      <Text style={styles.title}>Registro</Text>
+      <View style={styles.container}>
+        <Text style={styles.title}>Registro</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Correo electrónico"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Correo electrónico"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Contraseña"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Contraseña"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Confirmar Contraseña"
-        secureTextEntry
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Confirmar Contraseña"
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
 
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Registrarse</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+          <Text style={styles.buttonText}>Registrarse</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.linkText}>¿Ya tienes cuenta? Inicia sesión</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.linkText}>¿Ya tienes cuenta? Inicia sesión</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
