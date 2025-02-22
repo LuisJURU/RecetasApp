@@ -1,28 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Pressable, StyleSheet, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 
 const RecetasScreen = ({ navigation }) => {
   const [recetas, setRecetas] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [filteredRecetas, setFilteredRecetas] = useState([]);
 
-      // const fetchRecetas = async () => {
-      //   try {
-      //     const token = await AsyncStorage.getItem('token');
-      //     if (token) {
-      //       const response = await axios.get('      https://recetas-a2zepi5a7-luis-jarabas-projects.vercel.app/api/recipes', {
-      //         headers: {
-      //           Authorization: `Bearer ${token}`,
-      //         },
-      //       });
-      //       setRecetas(response.data);
-      //     }
-      //   } catch (error) {
-      //     console.error("Error fetching recetas", error);
-      //   }
-      // };
-      
   const fetchRecetas = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
@@ -33,6 +19,7 @@ const RecetasScreen = ({ navigation }) => {
           },
         });
         setRecetas(response.data);
+        setFilteredRecetas(response.data);
       }
     } catch (error) {
       console.error("Error fetching recetas", error);
@@ -45,23 +32,43 @@ const RecetasScreen = ({ navigation }) => {
     }, [])
   );
 
+  useEffect(() => {
+    setFilteredRecetas(
+      recetas.filter(receta =>
+        receta.nombre.toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
+  }, [searchText, recetas]);
+
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.recipeCard} onPress={() => navigation.navigate('DetalleReceta', { receta: item })}>
+    <TouchableOpacity style={styles.recipeCard} onPress={() => navigation.navigate('DetalleRecetaScreen', { receta: item })}>
       {item.imagen && (
         <Image source={{ uri: `http://localhost:5000${item.imagen}` }} style={styles.recipeImage} />
       )}
-      <Text style={styles.recipeTitle}>{item.nombre}</Text>
+      <Text style={styles.recipeTitle}>
+        {item.nombre.length > 20 ? `${item.nombre.substring(0, 30)}...` : item.nombre}
+      </Text>
       <Text>{item.descripcion}</Text>
-      <Text>Tiempo: {item.tiempo}</Text>
-      <Text>Comensales: {item.comensales}</Text>
+      
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('EditarReceta', { recetaId: item._id })}>
+          <Text style={styles.buttonText}>Editar</Text>
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Mis Recetas</Text>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Buscar receta..."
+        value={searchText}
+        onChangeText={setSearchText}
+      />
       <FlatList
-        data={recetas}
+        data={filteredRecetas}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
       />
@@ -83,6 +90,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  searchInput: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
   recipeCard: {
     padding: 10,
     borderBottomWidth: 1,
@@ -100,6 +115,8 @@ const styles = StyleSheet.create({
   recipeTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    maxHeight: 25,
+    paddingBottom: 20,
   },
   fab: {
     position: 'absolute',
@@ -116,6 +133,20 @@ const styles = StyleSheet.create({
   fabText: {
     fontSize: 24,
     color: '#fff',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  editButton: {
+    backgroundColor: '#FFD859',
+    padding: 10,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 14,
   },
 });
 

@@ -163,6 +163,7 @@ export default function AgregarRecetaScreen({ navigation }) {
         placeholder="Nombre de la receta"
         value={nombre}
         onChangeText={setNombre}
+        maxLength={50}
       />
 
       <TextInput
@@ -170,6 +171,8 @@ export default function AgregarRecetaScreen({ navigation }) {
         placeholder="Descripción"
         value={descripcion}
         onChangeText={setDescripcion}
+        maxLength={200}
+        multiline
       />
 
       <TextInput
@@ -185,6 +188,8 @@ export default function AgregarRecetaScreen({ navigation }) {
         placeholder="Tiempo de elaboración"
         value={tiempo}
         onChangeText={setTiempo}
+        maxLength={10}
+        keyboardType="numeric"
       />
 
       <Text style={styles.subtitle}>Ingredientes</Text>

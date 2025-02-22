@@ -8,6 +8,7 @@ import RecetasScreen from "../screens/RecetasScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import PerfilScreen from "../screens/PerfilScreen";
 import AgregarRecetaScreen from "../screens/AgregarRecetaScreen";
+import DetalleRecetaScreen from "../screens/DetalleRecetaScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,6 +47,7 @@ const AppNavigator = () => {
       >
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Registro" component={RegisterScreen} />
+        <Stack.Screen name="DetalleRecetaScreen" component={DetalleRecetaScreen} options={{ title: 'Detalle de la Receta' }} />
         <Stack.Screen
           name="Home"
           component={HomeTabs}
