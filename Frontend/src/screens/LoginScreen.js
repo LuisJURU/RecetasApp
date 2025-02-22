@@ -11,7 +11,7 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${IP}`, {
+      const response = await axios.post(`${IP}/api/auth/login`, {
         email,
         password
       });
