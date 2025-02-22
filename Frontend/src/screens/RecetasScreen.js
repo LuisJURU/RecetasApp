@@ -3,31 +3,16 @@ import { View, Text, Pressable, StyleSheet, FlatList, TouchableOpacity, Image } 
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import { IP, API_URL_LOCAL } from '@env';
 
 const RecetasScreen = ({ navigation }) => {
   const [recetas, setRecetas] = useState([]);
 
-      // const fetchRecetas = async () => {
-      //   try {
-      //     const token = await AsyncStorage.getItem('token');
-      //     if (token) {
-      //       const response = await axios.get('      https://recetas-a2zepi5a7-luis-jarabas-projects.vercel.app/api/recipes', {
-      //         headers: {
-      //           Authorization: `Bearer ${token}`,
-      //         },
-      //       });
-      //       setRecetas(response.data);
-      //     }
-      //   } catch (error) {
-      //     console.error("Error fetching recetas", error);
-      //   }
-      // };
-      
   const fetchRecetas = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
       if (token) {
-        const response = await axios.get('http://localhost:5000/api/recipes', {
+        const response = await axios.get(`${IP}/api/recipes`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,6 +22,7 @@ const RecetasScreen = ({ navigation }) => {
     } catch (error) {
       console.error("Error fetching recetas", error);
     }
+    
   };
 
   useFocusEffect(
@@ -48,7 +34,7 @@ const RecetasScreen = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.recipeCard} onPress={() => navigation.navigate('DetalleReceta', { receta: item })}>
       {item.imagen && (
-        <Image source={{ uri: `http://localhost:5000${item.imagen}` }} style={styles.recipeImage} />
+        <Image source={{ uri: `${IP}${item.imagen}` }} style={styles.recipeImage} />
       )}
       <Text style={styles.recipeTitle}>{item.nombre}</Text>
       <Text>{item.descripcion}</Text>
